@@ -1,8 +1,5 @@
 ﻿using Domain;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Service
 {
@@ -10,7 +7,7 @@ namespace Service
     {
         Venda ObtemVenda(int idVenda);
 
-        void AtualizaStatusVenda(StatusVenda statusVenda);
+        void AtualizaStatusVenda(StatusVenda statusVenda, int idVenda);
 
         void RegistraVenda(Venda venda);
     }

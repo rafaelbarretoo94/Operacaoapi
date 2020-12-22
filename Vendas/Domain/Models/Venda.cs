@@ -1,22 +1,20 @@
-﻿using Domain.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Domain
+namespace Domain.Models
 {
     public class Venda
     {
+        
         public int Id { get; set; }
 
-        public StatusVenda  Status { get; set; }
+        public StatusVenda Status { get; set; }
 
         public Vendedor Vendedor { get; set; }
 
         public DateTime DataVenda { get; set; }
 
-
-
-
-        //Uma venda contém informação sobre o vendedor que a efetivou, data, identificador do pedido e os itens que foram vendidos.
-
+        public IEnumerable<ItemVenda> ItensVenda { get; set; }
     }
 }

@@ -1,23 +1,30 @@
 ﻿using Domain;
 using Domain.Models;
+using Infra.Interfaces;
 
 namespace Service
 {
     public class OperacaoService : IOperacaoService
     {
-        public void AtualizaStatusVenda(StatusVenda statusVenda)
+        private readonly IOperacaoRepository _operacaoRepository;
+
+        public OperacaoService(IOperacaoRepository operacaoRepository)
         {
-            throw new System.NotImplementedException();
+            _operacaoRepository = operacaoRepository;
+        }
+        public void AtualizaStatusVenda(StatusVenda statusVenda, int idVenda)
+        {
+            _operacaoRepository.AtualizaVenda(statusVenda, idVenda);
         }
 
         public Venda ObtemVenda(int idVenda)
         {
-            throw new System.NotImplementedException();
+            return _operacaoRepository.ObtemVenda(idVenda);
         }
 
         public void RegistraVenda(Venda venda)
         {
-            throw new System.NotImplementedException();
+            _operacaoRepository.RegistraVenda(venda);
         }
     }
 }

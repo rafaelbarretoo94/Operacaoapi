@@ -1,6 +1,11 @@
-﻿namespace Domain.Models
+﻿using System;
+
+namespace Domain.Models
 {
-    class ItemVenda
+    public class ItemVenda
     {
+        public int Id { get; set; }
+
+        public string NomeProduto { get; set; }        
     }
 }

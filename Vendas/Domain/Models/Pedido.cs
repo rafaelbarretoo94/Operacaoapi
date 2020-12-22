@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
     public class Pedido
     {
+        [Key]
         public int Id { get; set; }
 
         public DateTime DataPedido { get; set; }
 
-        //private IEnumerable<ItemVenda> itensVenda;
+        public IEnumerable<ItemVenda> ItemVendas { get; set; }
 
-        //public IEnumerable<ItemVenda> GetItensVenda()
-        //{
-        //    return itensVenda;
-        //}
-
-        //public void SetItensVenda(IEnumerable<ItemVenda> value)
-        //{
-        //    itensVenda = value;
-        //}
+        public StatusVenda StatusVenda { get; set; }
     }
 }

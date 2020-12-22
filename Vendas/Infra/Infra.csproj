@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.1" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,6 @@ namespace Infra.Interfaces
     {
         Venda ObtemVenda(int idVenda);
         void RegistraVenda(Venda venda);
-
-        void AtualizaVenda(StatusVenda statusVenda);
+        void AtualizaVenda(StatusVenda statusVenda, int idVenda);
     }
 }
