@@ -3,6 +3,7 @@ using Domain;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using System;
 using System.Threading.Tasks;
 
 namespace Vendas.Controllers
@@ -13,7 +14,7 @@ namespace Vendas.Controllers
     public class OperacaoController : ControllerBase
     {
         private readonly IOperacaoService _operacaoService;
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
 
         public OperacaoController(IOperacaoService operacaoService, IMapper mapper)
         {
@@ -22,6 +23,7 @@ namespace Vendas.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(VendaGet), 200)]
         public IActionResult BuscaVenda(int id)
         {
             var venda = _operacaoService.ObtemVenda(id);
@@ -30,7 +32,7 @@ namespace Vendas.Controllers
             return Ok(retorno);
         }
 
-        [HttpPost]
+        [HttpPost("Operacao")]
         public void RegistrarVenda([FromBody] VendaPost vendaPost)
         {
             var dados = _mapper.Map<Venda>(vendaPost);
@@ -38,7 +40,7 @@ namespace Vendas.Controllers
         }
 
         [HttpPatch]
-        public void AtualizaVenda(StatusVendaPost statusVendaPost, int idVenda)
+        public void AtualizaVenda(StatusVendaDto statusVendaPost, int idVenda)
         {
             var status = _mapper.Map<StatusVenda>(statusVendaPost);
             _operacaoService.AtualizaStatusVenda(status, idVenda);

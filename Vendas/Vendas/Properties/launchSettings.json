@@ -20,7 +20,7 @@
     "Vendas": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/Operacao",
+      "launchUrl": "api/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

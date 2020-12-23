@@ -8,12 +8,12 @@ namespace Vendas.Controllers
     {
         public int Id { get; set; }
 
-        public StatusVendaPost Status { get; set; }
+        public StatusVendaDto Status { get; set; }
 
-        public VendedorPost Vendedor { get; set; }
+        public VendedorDto Vendedor { get; set; }
 
         public DateTime DataVenda { get; set; }
 
-        public IEnumerable<ItemVendaPost> ItensVenda { get; set; }
+        public IEnumerable<ItemVendaDto> ItensVenda { get; set; }
     }
 }

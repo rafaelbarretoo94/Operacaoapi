@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
     public class Venda
     {
-        
         public int Id { get; set; }
 
         public StatusVenda Status { get; set; }

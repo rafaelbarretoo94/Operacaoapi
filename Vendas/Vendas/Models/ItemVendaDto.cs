@@ -1,6 +1,6 @@
 ﻿namespace Vendas.Models
 {
-    public class ItemVendaPost
+    public class ItemVendaDto
     {
         public int Id { get; set; }
         public string NomeProduto { get; set; }

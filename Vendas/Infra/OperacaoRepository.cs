@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Models;
 using Infra.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -18,25 +19,61 @@ namespace Infra
         {
             var venda = _context.Venda.FirstOrDefault(v => v.Id == idVenda);
 
+            AtribuiStatusVenda(statusVenda, venda);
+        }
+
+        private void AtribuiStatusVenda(StatusVenda statusVenda, Venda venda)
+        {
             if (venda != null)
             {
                 switch (venda.Status)
                 {
                     case StatusVenda.AguardandoPagamento:
-                        venda.Status = statusVenda == StatusVenda.PagamentoAprovado
-                            ? StatusVenda.PagamentoAprovado : StatusVenda.Cancelada;
+                        if (statusVenda == StatusVenda.PagamentoAprovado)
+                        {
+                            venda.Status = StatusVenda.PagamentoAprovado;
+                        }
+                        else if (statusVenda == StatusVenda.Cancelada)
+                        {
+                            venda.Status = StatusVenda.Cancelada;
+                        }
+                        else
+                        {
+                            RetornaMensagemStatus();
+                            return;
+                        }
+
                         break;
 
                     case StatusVenda.PagamentoAprovado:
-                        venda.Status = statusVenda == StatusVenda.EnviadoTransportadora
-                            ? StatusVenda.EnviadoTransportadora : StatusVenda.Cancelada;
+                        if (statusVenda == StatusVenda.EnviadoTransportadora)
+                        {
+                            venda.Status = StatusVenda.EnviadoTransportadora;
+                        }
+                        else if (statusVenda == StatusVenda.Cancelada)
+                        {
+                            venda.Status = StatusVenda.Cancelada;
+                        }
+                        else
+                        {
+                            RetornaMensagemStatus();
+                            return;
+                        }
+
                         break;
 
                     case StatusVenda.EnviadoTransportadora:
-                        venda.Status = StatusVenda.Entregue;
+                        if (statusVenda == StatusVenda.Entregue)
+                        {
+                            venda.Status = StatusVenda.Entregue;
+                        }
+                        else
+                        {
+                            RetornaMensagemStatus();
+                            return;
+                        }
                         break;
                 };
-
                 _context.SaveChanges();
             }
             else
@@ -45,9 +82,16 @@ namespace Infra
             }
         }
 
+        private static void RetornaMensagemStatus()
+        {
+            throw new ArgumentException("Status não permitido.");
+        }
+
         public Venda ObtemVenda(int idVenda)
         {
-            return _context.Venda.FirstOrDefault(v => v.Id == idVenda);
+            return _context.Venda.Include(v => v.ItensVenda)
+                .Include(v => v.Vendedor).
+                FirstOrDefault(v => v.Id == idVenda);
         }
 
         public void RegistraVenda(Venda venda)
@@ -57,6 +101,11 @@ namespace Infra
                 if (venda.ItensVenda != null)
                 {
                     venda.DataVenda = DateTime.Now;
+                    _context.Venda.Add(venda);
+                    _context.Vendedor.Add(venda.Vendedor);
+                    _context.ItensVenda.AddRangeAsync(venda.ItensVenda);
+                    _context.SaveChanges();
+
                     _context.Add(venda);
                 }
                 else
@@ -64,7 +113,6 @@ namespace Infra
                     throw new ArgumentNullException("Não foram incluídos items para esta venda.");
                 }
             }
-            _context.SaveChanges();
         }
 
         private bool VerificaExistenciaVenda(int id)
