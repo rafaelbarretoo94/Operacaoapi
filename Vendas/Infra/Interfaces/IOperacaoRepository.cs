@@ -1,12 +1,13 @@
 ﻿using Domain;
 using Domain.Models;
+using System;
 
 namespace Infra.Interfaces
 {
     public interface IOperacaoRepository
     {
-        Venda ObtemVenda(int idVenda);
-        void RegistraVenda(Venda venda);
-        void AtualizaVenda(StatusVenda statusVenda, int idVenda);
+        Venda ObtemVenda(Guid idVenda);
+        Guid RegistraVenda(Venda venda);
+        bool AtualizaVenda(StatusVenda statusVenda, Guid idVenda);
     }
 }

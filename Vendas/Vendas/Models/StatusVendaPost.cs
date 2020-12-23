@@ -1,11 +1,11 @@
 ﻿namespace Vendas.Controllers
 {
-    public enum StatusVendaDto
+    public enum StatusVendaPost
     {
         AguardandoPagamento = 1,
         PagamentoAprovado = 2,
         Cancelada = 3,
-        EnviadoTransportadora = 4,
-        Entregue = 5
+        EnviadoTransportadora = 5,
+        Entregue = 6
     }
 }

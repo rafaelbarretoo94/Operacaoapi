@@ -23,7 +23,7 @@ namespace VendasTest
         {
             var venda = new Venda()
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Status = StatusVenda.AguardandoPagamento,
                 DataVenda = DateTime.Now,
                 ItensVenda = new List<ItemVenda>() { new ItemVenda()

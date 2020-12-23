@@ -6,9 +6,9 @@ namespace Vendas.Controllers
 {
     public class VendaGet
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public StatusVendaDto Status { get; set; }
+        public StatusVendaPost Status { get; set; }
 
         public VendedorDto Vendedor { get; set; }
 

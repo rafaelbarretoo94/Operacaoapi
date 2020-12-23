@@ -1,6 +1,6 @@
-﻿using Domain;
-using Domain.Models;
+﻿using Domain.Models;
 using Infra.Interfaces;
+using System;
 
 namespace Service
 {
@@ -12,19 +12,19 @@ namespace Service
         {
             _operacaoRepository = operacaoRepository;
         }
-        public void AtualizaStatusVenda(StatusVenda statusVenda, int idVenda)
+        public bool AtualizaStatusVenda(StatusVenda statusVenda, Guid idVenda)
         {
-            _operacaoRepository.AtualizaVenda(statusVenda, idVenda);
+            return _operacaoRepository.AtualizaVenda(statusVenda, idVenda);
         }
 
-        public Venda ObtemVenda(int idVenda)
+        public Venda ObtemVenda(Guid idVenda)
         {
             return _operacaoRepository.ObtemVenda(idVenda);
         }
 
-        public void RegistraVenda(Venda venda)
+        public Guid RegistraVenda(Venda venda)
         {
-            _operacaoRepository.RegistraVenda(venda);
+            return _operacaoRepository.RegistraVenda(venda);
         }
     }
 }

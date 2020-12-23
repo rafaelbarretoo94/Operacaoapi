@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using Domain;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using System;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Vendas.Controllers
 {
@@ -23,8 +22,7 @@ namespace Vendas.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(VendaGet), 200)]
-        public IActionResult BuscaVenda(int id)
+        public IActionResult BuscaVenda(Guid id)
         {
             var venda = _operacaoService.ObtemVenda(id);
             var retorno = _mapper.Map<VendaGet>(venda);
@@ -32,18 +30,30 @@ namespace Vendas.Controllers
             return Ok(retorno);
         }
 
-        [HttpPost("Operacao")]
-        public void RegistrarVenda([FromBody] VendaPost vendaPost)
+        [HttpPost]
+        public IActionResult RegistrarVenda([FromBody] VendaPost vendaPost)
         {
             var dados = _mapper.Map<Venda>(vendaPost);
-            _operacaoService.RegistraVenda(dados);
+            var retorno = _operacaoService.RegistraVenda(dados);
+
+            if (retorno == Guid.Empty)
+            {
+                return BadRequest($"Já existe uma venda com esse identificador.");
+            }
+           
+            return Ok(retorno);
         }
 
         [HttpPatch]
-        public void AtualizaVenda(StatusVendaDto statusVendaPost, int idVenda)
+        public IActionResult AtualizaVenda(StatusVendaPost statusVendaPost, Guid idVenda)
         {
             var status = _mapper.Map<StatusVenda>(statusVendaPost);
-            _operacaoService.AtualizaStatusVenda(status, idVenda);
+
+            if (!_operacaoService.AtualizaStatusVenda(status, idVenda))
+            {
+                return BadRequest($"O Status {statusVendaPost} não  é permitido.");
+            }
+            return Ok();
         }
     }
 }

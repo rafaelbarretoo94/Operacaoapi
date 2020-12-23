@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.Models;
+﻿using Domain.Models;
 using Infra.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,14 +14,14 @@ namespace Infra
         {
             _context = context;
         }
-        public void AtualizaVenda(StatusVenda statusVenda, int idVenda)
+        public bool AtualizaVenda(StatusVenda statusVenda, Guid idVenda)
         {
             var venda = _context.Venda.FirstOrDefault(v => v.Id == idVenda);
 
-            AtribuiStatusVenda(statusVenda, venda);
+            return AtribuiStatusVenda(statusVenda, venda);
         }
 
-        private void AtribuiStatusVenda(StatusVenda statusVenda, Venda venda)
+        private bool AtribuiStatusVenda(StatusVenda statusVenda, Venda venda)
         {
             if (venda != null)
             {
@@ -39,8 +38,7 @@ namespace Infra
                         }
                         else
                         {
-                            RetornaMensagemStatus();
-                            return;
+                            return false;
                         }
 
                         break;
@@ -56,10 +54,8 @@ namespace Infra
                         }
                         else
                         {
-                            RetornaMensagemStatus();
-                            return;
+                            return false;
                         }
-
                         break;
 
                     case StatusVenda.EnviadoTransportadora:
@@ -69,10 +65,13 @@ namespace Infra
                         }
                         else
                         {
-                            RetornaMensagemStatus();
-                            return;
+                            return false;
                         }
                         break;
+
+                    case StatusVenda.Entregue:
+                        return false;
+
                 };
                 _context.SaveChanges();
             }
@@ -80,42 +79,42 @@ namespace Infra
             {
                 throw new ArgumentOutOfRangeException("Não existe venda para o identificador informado.");
             }
+
+            return true;
         }
 
-        private static void RetornaMensagemStatus()
-        {
-            throw new ArgumentException("Status não permitido.");
-        }
-
-        public Venda ObtemVenda(int idVenda)
+        public Venda ObtemVenda(Guid idVenda)
         {
             return _context.Venda.Include(v => v.ItensVenda)
                 .Include(v => v.Vendedor).
                 FirstOrDefault(v => v.Id == idVenda);
         }
 
-        public void RegistraVenda(Venda venda)
+        public Guid RegistraVenda(Venda venda)
         {
             if (!VerificaExistenciaVenda(venda.Id))
             {
                 if (venda.ItensVenda != null)
                 {
                     venda.DataVenda = DateTime.Now;
+                    venda.Id = Guid.NewGuid();
                     _context.Venda.Add(venda);
                     _context.Vendedor.Add(venda.Vendedor);
                     _context.ItensVenda.AddRangeAsync(venda.ItensVenda);
                     _context.SaveChanges();
 
-                    _context.Add(venda);
+                    return venda.Id;
                 }
                 else
                 {
                     throw new ArgumentNullException("Não foram incluídos items para esta venda.");
                 }
             }
+            else
+                return Guid.Empty;
         }
 
-        private bool VerificaExistenciaVenda(int id)
+        private bool VerificaExistenciaVenda(Guid id)
         {
             return _context.Venda.Any(v => v.Id == id);
         }

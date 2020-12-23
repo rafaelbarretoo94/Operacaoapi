@@ -1,14 +1,15 @@
 ﻿using Domain;
 using Domain.Models;
+using System;
 
 namespace Service
 {
     public interface IOperacaoService
     {
-        Venda ObtemVenda(int idVenda);
+        Venda ObtemVenda(Guid idVenda);
 
-        void AtualizaStatusVenda(StatusVenda statusVenda, int idVenda);
+        bool AtualizaStatusVenda(StatusVenda statusVenda, Guid idVenda);
 
-        void RegistraVenda(Venda venda);
+        Guid RegistraVenda(Venda venda);
     }
 }

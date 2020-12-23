@@ -5,7 +5,7 @@ namespace Domain.Models
 {
     public class Venda
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public StatusVenda Status { get; set; }
 
