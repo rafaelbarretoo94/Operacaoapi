@@ -94,11 +94,14 @@ namespace Infra
         {
             if (!VerificaExistenciaVenda(venda.Id))
             {
-                if (venda.ItensVenda != null)
+                if (venda.ItensVenda.Any() || venda.ItensVenda.Any(v => v.Id > 0))
                 {
                     venda.DataVenda = DateTime.Now;
                     venda.Id = Guid.NewGuid();
+                    venda.Status = StatusVenda.AguardandoPagamento;
                     _context.Venda.Add(venda);
+                    Random rnd = new Random();
+                    venda.Vendedor.Id = rnd.Next(1, 10000);
                     _context.Vendedor.Add(venda.Vendedor);
                     _context.ItensVenda.AddRangeAsync(venda.ItensVenda);
                     _context.SaveChanges();

@@ -4,8 +4,6 @@ namespace Vendas.Models
 {
     public class VendedorDto
     {
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(11)]
         public string Cpf { get; set; }

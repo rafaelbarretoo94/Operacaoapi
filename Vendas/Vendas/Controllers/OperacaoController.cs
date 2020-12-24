@@ -41,7 +41,7 @@ namespace Vendas.Controllers
                 return BadRequest($"Já existe uma venda com esse identificador.");
             }
            
-            return Ok(retorno);
+            return Ok( retorno);
         }
 
         [HttpPatch]

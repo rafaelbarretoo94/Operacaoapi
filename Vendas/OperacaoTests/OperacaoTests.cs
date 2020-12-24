@@ -1,20 +1,19 @@
 using Domain.Models;
 using Infra.Interfaces;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Moq;
-using NUnit.Framework;
 using Service;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace VendasTest
+namespace OperacaoTests
 {
-    public class OperacaoTest
+    public class OperacaoTests
     {
         private readonly IOperacaoService _operacaoService;
         private readonly Mock<IOperacaoRepository> operacaoRepositoryMock;
-        public OperacaoTest(IOperacaoService operacaoService)
+
+        public OperacaoTests(IOperacaoService operacaoService)
         {
             _operacaoService = operacaoService;
             operacaoRepositoryMock = new Mock<IOperacaoRepository>();
@@ -54,7 +53,7 @@ namespace VendasTest
 
             var retorno = _operacaoService.RegistraVenda(venda);
 
-            Assert.Equals(idEsperado, retorno);
+            Assert.Equal(idEsperado, retorno);
         }
 
         #endregion

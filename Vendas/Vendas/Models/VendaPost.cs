@@ -6,10 +6,6 @@ namespace Vendas.Controllers
 {
     public class VendaPost
     {
-        //public int Id { get; set; }
-
-        public StatusVendaPost Status { get; set; }
-
         public VendedorDto Vendedor { get; set; }
 
         public DateTime DataVenda { get; set; }

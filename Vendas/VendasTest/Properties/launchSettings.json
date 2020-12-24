@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VendasTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
